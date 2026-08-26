@@ -1,0 +1,14 @@
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Read 'app.log.level', default to INFO if not supplied -->
+    <property name="LOG_LEVEL" value="${app.log.level:-INFO}" />
+
+    <root level="${LOG_LEVEL}">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
