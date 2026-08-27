@@ -15,17 +15,21 @@ import org.eclipse.milo.opcua.stack.core.types.enumerated.NodeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
+@SuppressWarnings("deprecation")
 public class ClientUtility {
 	private static final Logger logger = LoggerFactory.getLogger(ClientUtility.class);
 
 	private static final AddressSpace addressSpace = client.getAddressSpace();
+	
 	
 	private static final BrowseOptions componentBrowseOptions = BrowseOptions.builder()
 		    .setReferenceType(Identifiers.HasComponent)
 		    .setIncludeSubtypes(true)
 		    .build();
 	
-	//Check if a node exists
+	
+	//Discover UA Node
 	public UaNode discover(NodeId nodeId) throws UaException {
 		UaNode node = addressSpace.getNode(nodeId);
 		if(node != null) {
@@ -36,7 +40,8 @@ public class ClientUtility {
 		return node;
 	}
 	
-	//Print the variable components of a node
+	
+	//Get components of node
 	public void getProperties(NodeId nodeId) throws UaException {
 		UaNode node = discover(nodeId);
 		

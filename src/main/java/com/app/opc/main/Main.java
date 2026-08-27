@@ -1,7 +1,5 @@
 package com.app.opc.main;
 
-import java.util.concurrent.TimeUnit;
-
 import org.eclipse.milo.opcua.stack.core.Stack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,28 +12,27 @@ public class Main {
     private final static Logger logger = LoggerFactory.getLogger(Main.class);
     
     public static void main(String[] args) throws Exception {
-        Client wrapper = new Client();
-
-        wrapper.configure();
-        wrapper.connect();
+        Client clientWrapper = new Client();
+        clientWrapper.configure();
+        clientWrapper.connect();
         
-        ClientRegistry.client = wrapper.getClient();
+        ClientRegistry.client = clientWrapper.getClient();
         logger.info("Client Registered, Ready to use!");
        
-        //run basic connectivity tests
+        //Run connectivity tests
         Test test = new Test();
         test.run();
-        
 
+        //Terminate Connection
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             logger.info("Shutdown signal received. Disconnecting client...");
             try {
-                if (wrapper.getClient() != null) {
-                    wrapper.getClient().disconnect().get(5, TimeUnit.SECONDS);
+                if (clientWrapper.getClient() != null) {
+                	clientWrapper.getClient().disconnect();
                 }
          
                 Stack.releaseSharedResources();
-                
+       
                 logger.info("OPC UA resources released cleanly.");
             } catch (Exception e) {
                 logger.error("Error during graceful shutdown", e);
