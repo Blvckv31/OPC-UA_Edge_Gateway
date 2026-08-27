@@ -32,9 +32,7 @@ public class ClientUtility {
 	//Discover UA Node
 	public UaNode discover(NodeId nodeId) throws UaException {
 		UaNode node = addressSpace.getNode(nodeId);
-		if(node != null) {
-			logger.info("{} found in address space!", node.getBrowseName().getName());	
-		} else {
+		if(node == null) {
 			logger.error("could not find node in address space!");
 		}
 		return node;
